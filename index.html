@@ -44,6 +44,231 @@
             z-index: 10;
         }
         .chat-box {
+            position: absolute;
+            bottom: 100; 
+            left: 0;
+            right: 0;
+            width: 100%;
+            padding: 20px 10px;
+            background: #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #555 #2a2a2a;
+            overflow-y: auto;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: #333;
+            border-top: 1px solid #555;
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+            max-width: 600px;
+            z-index: 10;
+        }
+        input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background: #444;
+            color: #fff;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background: #007bff;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background: #444;
+            align-self: flex-start;
+        }
+        .loading {
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .blurred-img {
+            width: 80%;
+            filter: blur(20px);
+            transition: filter 3s ease-in-out;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(50, 50, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            display: none;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="navibar">Chat RC-愚人節限定繪圖AIr</div>
+        <br><br><br><br>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="輸入訊息...">
+            <button id="send-btn">送出</button>
+        </div>
+    </div>
+    
+    <div class="popup" id="popup">愚人節快樂！</div>
+    
+    <script>
+        let firstMessageSent = true;
+        let imageDisplayed = false;
+
+        function appendMessage(text, isUser = false) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.classList.add("message", isUser ? "user-message" : "bot-message");
+            message.textContent = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function appendLoading() {
+            const chatBox = document.getElementById("chat-box");
+            const loading = document.createElement("div");
+            loading.classList.add("loading");
+            loading.id = "loading";
+            loading.textContent = "載入中...";
+            chatBox.appendChild(loading);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removeLoading() {
+            const loading = document.getElementById("loading");
+            if (loading) loading.remove();
+        }
+
+        function showImage() {
+            const chatBox = document.getElementById("chat-box");
+            const imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
+            const img = document.createElement("img");
+            img.src = "IMG_7203.jpeg";
+            img.classList.add("blurred-img");
+            imageContainer.appendChild(img);
+            chatBox.appendChild(imageContainer);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(() => img.style.filter = "blur(0px)", 10000);
+            setTimeout(() => document.getElementById("popup").style.display = "block", 350000);
+            imageDisplayed = true;
+        }
+
+        document.getElementById("send-btn").addEventListener("click", () => {
+            const userInput = document.getElementById("user-input");
+            const text = userInput.value.trim();
+            if (text === "") return;
+            appendMessage(text, true);
+            userInput.value = "";
+
+            if (firstMessageSent){
+                appendMessage("相不相信我啊？！給我更多繪製圖片的描述！快💨");
+                firstMessageSent=false;
+            }
+            else if (!imageDisplayed) {
+                setTimeout(() => appendMessage("已收到您的請求，即將根據請求繪製愚人節限定圖片。"), 500);
+                setTimeout(appendLoading, 1500);
+                setTimeout(() => {
+                    removeLoading();
+                    showImage();
+                }, 4500);
+            } else {
+                setTimeout(() => appendMessage("哈哈，愚人節快樂🎉"), 500);
+            }
+        });
+
+        window.onload = () => {
+            setTimeout(() => {
+                appendMessage("你好，我是 Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。");
+                firstMessageSent = true;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
+
+
+<!-- < !DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat RC-愚人節限定繪圖AIr</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #2a2a2a;
+            position: relative;
+        }
+        .navibar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 600px;
+            background: rgba(50, 50, 50, 0.9);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        .chat-box {
             flex-grow: 1;
             overflow-y: auto;
             padding: 20px 10px;
@@ -217,3 +442,4 @@
     </script>
 </body>
 </html>
+-->
