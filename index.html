@@ -132,6 +132,7 @@
 <body>
     <div class="chat-container">
         <div class="navibar">Chat RC-愚人節限定繪圖AIr</div>
+        <br><br><br><br>
         <div class="chat-box" id="chat-box"></div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="輸入訊息...">
@@ -179,8 +180,8 @@
             imageContainer.appendChild(img);
             chatBox.appendChild(imageContainer);
             chatBox.scrollTop = chatBox.scrollHeight;
-            setTimeout(() => img.style.filter = "blur(0px)", 100);
-            setTimeout(() => document.getElementById("popup").style.display = "block", 3500);
+            setTimeout(() => img.style.filter = "blur(0px)", 10000);
+            setTimeout(() => document.getElementById("popup").style.display = "block", 350000);
             imageDisplayed = true;
         }
 
