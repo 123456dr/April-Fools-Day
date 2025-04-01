@@ -132,19 +132,16 @@
 <body>
     <div class="chat-container">
         <div class="navibar">Chat RC-愚人節限定繪圖AIr</div>
-        <br><br><br><br>
         <div class="chat-box" id="chat-box"></div>
         <div class="input-container">
             <input type="text" id="user-input" placeholder="輸入訊息...">
             <button id="send-btn">送出</button>
         </div>
     </div>
-    <br><br><br><br>
     
     <div class="popup" id="popup">愚人節快樂！</div>
     
     <script>
-        appendMessage("你好，我是 Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。"), 1000);
         let firstMessageSent = false;
         let imageDisplayed = false;
 
@@ -194,10 +191,7 @@
             appendMessage(text, true);
             userInput.value = "";
 
-            if (!firstMessageSent) {
-                setTimeout(() => appendMessage("你好，我是 Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。"), 1000);
-                firstMessageSent = true;
-            } else if (!imageDisplayed) {
+            if (!imageDisplayed) {
                 setTimeout(() => appendMessage("已收到您的請求，即將根據請求繪製愚人節限定圖片。"), 500);
                 setTimeout(appendLoading, 1500);
                 setTimeout(() => {
@@ -208,6 +202,13 @@
                 setTimeout(() => appendMessage("哈哈，愚人節快樂🎉"), 500);
             }
         });
+
+        window.onload = () => {
+            setTimeout(() => {
+                appendMessage("你好，我是 Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。");
+                firstMessageSent = true;
+            }, 1000);
+        };
     </script>
 </body>
 </html>
