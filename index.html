@@ -142,7 +142,7 @@
     <div class="popup" id="popup">愚人節快樂！</div>
     
     <script>
-        let firstMessageSent = false;
+        let firstMessageSent = true;
         let imageDisplayed = false;
 
         function appendMessage(text, isUser = false) {
@@ -191,7 +191,11 @@
             appendMessage(text, true);
             userInput.value = "";
 
-            if (!imageDisplayed) {
+            if (firstMessageSent){
+                appendMessage("相不相信我啊？！給我更多繪製圖片的描述！快💨");
+                firstMessageSent=false;
+            }
+            else if (!imageDisplayed) {
                 setTimeout(() => appendMessage("已收到您的請求，即將根據請求繪製愚人節限定圖片。"), 500);
                 setTimeout(appendLoading, 1500);
                 setTimeout(() => {
