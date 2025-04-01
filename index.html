@@ -83,6 +83,50 @@
         button:hover {
             background: #0056b3;
         }
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .user-message {
+            background: #007bff;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background: #444;
+            align-self: flex-start;
+        }
+        .loading {
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+        }
+        .image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .blurred-img {
+            width: 80%;
+            filter: blur(20px);
+            transition: filter 3s ease-in-out;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(50, 50, 50, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            display: none;
+            z-index: 20;
+        }
     </style>
 </head>
 <body>
@@ -94,5 +138,72 @@
             <button id="send-btn">送出</button>
         </div>
     </div>
+    <div class="popup" id="popup">愚人節快樂！</div>
+    
+    <script>
+        let firstMessageSent = false;
+        let imageDisplayed = false;
+
+        function appendMessage(text, isUser = false) {
+            const chatBox = document.getElementById("chat-box");
+            const message = document.createElement("div");
+            message.classList.add("message", isUser ? "user-message" : "bot-message");
+            message.textContent = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function appendLoading() {
+            const chatBox = document.getElementById("chat-box");
+            const loading = document.createElement("div");
+            loading.classList.add("loading");
+            loading.id = "loading";
+            loading.textContent = "載入中...";
+            chatBox.appendChild(loading);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function removeLoading() {
+            const loading = document.getElementById("loading");
+            if (loading) loading.remove();
+        }
+
+        function showImage() {
+            const chatBox = document.getElementById("chat-box");
+            const imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
+            const img = document.createElement("img");
+            img.src = "IMG_7203.jpeg";
+            img.classList.add("blurred-img");
+            imageContainer.appendChild(img);
+            chatBox.appendChild(imageContainer);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(() => img.style.filter = "blur(0px)", 100);
+            setTimeout(() => document.getElementById("popup").style.display = "block", 3500);
+            imageDisplayed = true;
+        }
+
+        document.getElementById("send-btn").addEventListener("click", () => {
+            const userInput = document.getElementById("user-input");
+            const text = userInput.value.trim();
+            if (text === "") return;
+            appendMessage(text, true);
+            userInput.value = "";
+
+            if (!firstMessageSent) {
+                setTimeout(() => appendMessage("你好，我是 Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。"), 1000);
+                firstMessageSent = true;
+            } else if (!imageDisplayed) {
+                setTimeout(() => appendMessage("已收到您的請求，即將根據請求繪製愚人節限定圖片。"), 500);
+                setTimeout(appendLoading, 1000);
+                setTimeout(() => {
+                    removeLoading();
+                    showImage();
+                }, 3000);
+            } else {
+                setTimeout(() => appendMessage("哈哈，愚人節快樂🎉"), 500);
+            }
+        });
+    </script>
 </body>
 </html>
