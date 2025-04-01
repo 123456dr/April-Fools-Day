@@ -30,9 +30,10 @@
             position: relative;
         }
         .navibar {
-            position: absolute;
+            position: fixed;
             top: 0;
             width: 100%;
+            max-width: 600px;
             background: rgba(50, 50, 50, 0.9);
             color: white;
             text-align: center;
@@ -40,12 +41,12 @@
             font-size: 18px;
             font-weight: bold;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: opacity 0.5s ease-in-out;
+            z-index: 10;
         }
         .chat-box {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 20px 10px 10px;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -58,9 +59,11 @@
             padding: 10px;
             background: #333;
             border-top: 1px solid #555;
-            position: absolute;
-            bottom: 20px;
+            position: fixed;
+            bottom: 50px;
             width: 100%;
+            max-width: 600px;
+            z-index: 10;
         }
         input {
             flex-grow: 1;
@@ -86,22 +89,10 @@
     <div class="chat-container">
         <div class="navibar">Chat RC-愚人節限定繪圖AIr</div>
         <div class="chat-box" id="chat-box"></div>
-        <div class="input-container" id="input-container">
+        <div class="input-container">
             <input type="text" id="user-input" placeholder="輸入訊息...">
             <button id="send-btn">送出</button>
         </div>
     </div>
-    <script>
-        function adjustInputPosition() {
-            setTimeout(() => {
-                const inputContainer = document.getElementById("input-container");
-                const viewportHeight = window.innerHeight;
-                inputContainer.style.bottom = `${Math.max(20, viewportHeight - window.visualViewport.height)}px`;
-            }, 100);
-        }
-
-        window.visualViewport.addEventListener("resize", adjustInputPosition);
-        window.visualViewport.addEventListener("scroll", adjustInputPosition);
-    </script>
 </body>
 </html>
