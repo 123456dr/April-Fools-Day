@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatGTP - 繪圖專用_RC</title>
+    <title>Chat RC-愚人節限定繪圖AIr</title>
     <style>
         * {
             margin: 0;
@@ -184,26 +184,42 @@
             const chatBox = document.getElementById("chat-box");
             const imageContainer = document.createElement("div");
             imageContainer.classList.add("image-container");
+
             const img = document.createElement("img");
             img.src = "IMG_7203.jpeg";
-            img.classList.add("blurred-img");
+            img.classList.add("blurred-img"); 
+
             imageContainer.appendChild(img);
             chatBox.appendChild(imageContainer);
+
+            
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            setTimeout(() => img.style.filter = "blur(0px)", 3000);
+            
+            img.onload = () => {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            };
+            
+            setTimeout(() => {
+                img.style.transition = "filter 2s";
+                img.style.filter = "blur(0px)";
+            }, 4000);
 
+            
             setTimeout(() => {
                 appendMessage("Sehr nett, super!");
-            }, 6000); 
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 6500);
 
             setTimeout(() => {
                 appendMessage("有被騙到ㄇ?");
-            }, 6500);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 7000);
 
             imageDisplayed = true;
             questionask = true;
         }
+
 
         /*
         function showImage() {
@@ -273,7 +289,7 @@
 
 
         if (firstMessageSent) {
-            appendMessage("相不相信我啊？！給我更多繪製圖片的描述！快💨");
+            setTimeout(() => appendMessage("相不相信我啊？！給我更多繪製圖片的描述！快💨"), 500);
             firstMessageSent = false;
         }else if (!imageDisplayed) {
             setTimeout(() => appendMessage("已收到您的請求，即將根據請求繪製愚人節限定圖片。"), 500);
