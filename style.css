@@ -18,7 +18,6 @@ body {
     background: #2a2a2a;
 }
 
-
 .chat-box {
     flex-grow: 1;
     overflow-y: auto;
@@ -27,7 +26,6 @@ body {
     flex-direction: column;
     gap: 10px;
 }
-
 
 .message {
     max-width: 75%;
@@ -44,7 +42,6 @@ body {
     background: #444;
     align-self: flex-start;
 }
-
 
 .input-container {
     display: flex;
@@ -103,20 +100,20 @@ button:hover {
 
 .image-mask {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(15px);
-    animation: reveal 3s forwards;
+    background: rgba(0, 0, 0, 1);
+    backdrop-filter: blur(30px);
+    transition: height 5s ease-out, opacity 5s ease-out;
+    opacity: 1;
 }
 
-@keyframes reveal {
-    0% { height: 100%; opacity: 1; }
-    100% { height: 0%; opacity: 0; }
+.image-mask.reveal {
+    height: 0%;
+    opacity: 0;
 }
-
 
 .popup {
     position: fixed;
