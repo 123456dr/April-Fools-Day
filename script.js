@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
         imageContainer.classList.add("image-container");
 
         let img = document.createElement("img");
-        img.src = "img.jpg";
+        img.src = "IMG_7203.jpeg";
         img.alt = "愚人節圖片";
 
         let mask = document.createElement("div");
