@@ -27,6 +27,20 @@
             display: flex;
             flex-direction: column;
             background: #2a2a2a;
+            position: relative;
+        }
+        .navibar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: rgba(50, 50, 50, 0.9);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s ease-in-out;
         }
         .chat-box {
             flex-grow: 1;
@@ -37,31 +51,16 @@
             gap: 10px;
             scrollbar-width: thin;
             scrollbar-color: #555 #2a2a2a;
-        }
-        .chat-box::-webkit-scrollbar {
-            width: 6px;
-        }
-        .chat-box::-webkit-scrollbar-thumb {
-            background: #555;
-        }
-        .message {
-            max-width: 75%;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .user {
-            background: #007bff;
-            align-self: flex-end;
-        }
-        .bot {
-            background: #444;
-            align-self: flex-start;
+            margin-top: 50px;
         }
         .input-container {
             display: flex;
             padding: 10px;
             background: #333;
             border-top: 1px solid #555;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
         input {
             flex-grow: 1;
@@ -81,161 +80,28 @@
         button:hover {
             background: #0056b3;
         }
-        .loading {
-            width: 30px;
-            height: 30px;
-            border: 4px solid #666;
-            border-top: 4px solid #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 10px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .image-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            text-align: center;
-        }
-        .image-container img {
-            width: 100%;
-            display: block;
-        }
-        .image-mask {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 1);
-            backdrop-filter: blur(30px);
-            transition: height 5s ease-out, opacity 5s ease-out;
-            opacity: 1;
-        }
-        .image-mask.reveal {
-            height: 0%;
-            opacity: 0;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 70%;
-            max-width: 400px;
-            padding: 20px;
-            background: #fff;
-            color: #000;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 10px;
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-        .popup.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
     <div class="chat-container">
+        <div class="navibar">Chat RC-愚人節限定繪圖AIr</div>
         <div class="chat-box" id="chat-box"></div>
-        <div class="input-container">
+        <div class="input-container" id="input-container">
             <input type="text" id="user-input" placeholder="輸入訊息...">
             <button id="send-btn">送出</button>
         </div>
     </div>
-    <div class="popup" id="popup">
-        <p>愚人節快樂！</p>
-    </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const chatBox = document.getElementById("chat-box");
-            const userInput = document.getElementById("user-input");
-            const sendBtn = document.getElementById("send-btn");
-            const popup = document.getElementById("popup");
-            let imageShown = false;
-
+        function adjustInputPosition() {
             setTimeout(() => {
-                addMessage("bot", "你好，我是Chat RC，請提供繪圖細節，俺來替你繪製專屬圖片。");
-            }, 1000);
+                const inputContainer = document.getElementById("input-container");
+                const viewportHeight = window.innerHeight;
+                inputContainer.style.bottom = `${viewportHeight - window.visualViewport.height}px`;
+            }, 100);
+        }
 
-            sendBtn.addEventListener("click", function() {
-                let message = userInput.value.trim();
-                if (message === "") return;
-                addMessage("user", message);
-                userInput.value = "";
-
-                if (imageShown) {
-                    setTimeout(() => {
-                        addMessage("bot", "哈哈，愚人節快樂🎉");
-                    }, 500);
-                } else {
-                    setTimeout(() => {
-                        addMessage("bot", "已收到您的請求，即將根據請求繪製愚人節限定圖片...");
-                        showLoading();
-                    }, 500);
-                }
-            });
-
-            function addMessage(sender, text) {
-                let messageDiv = document.createElement("div");
-                messageDiv.classList.add("message", sender);
-                messageDiv.innerHTML = text;
-                chatBox.appendChild(messageDiv);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-
-            function showLoading() {
-                let loadingDiv = document.createElement("div");
-                loadingDiv.classList.add("loading");
-                chatBox.appendChild(loadingDiv);
-                chatBox.scrollTop = chatBox.scrollHeight;
-
-                setTimeout(() => {
-                    loadingDiv.remove();
-                    showImage();
-                }, 2000);
-            }
-
-            function showImage() {
-                let imageContainer = document.createElement("div");
-                imageContainer.classList.add("image-container");
-
-                let img = document.createElement("img");
-                img.src = "IMG_7203.jpeg";
-                img.alt = "愚人節圖片";
-
-                let mask = document.createElement("div");
-                mask.classList.add("image-mask");
-
-                imageContainer.appendChild(img);
-                imageContainer.appendChild(mask);
-                chatBox.appendChild(imageContainer);
-                chatBox.scrollTop = chatBox.scrollHeight;
-                imageShown = true;
-
-                setTimeout(() => {
-                    mask.classList.add("reveal");
-                }, 500);
-
-                setTimeout(() => {
-                    showPopup();
-                }, 5500);
-            }
-
-            function showPopup() {
-                popup.classList.add("show");
-                setTimeout(() => {
-                    popup.classList.remove("show");
-                }, 2000);
-            }
-        });
+        window.visualViewport.addEventListener("resize", adjustInputPosition);
+        window.visualViewport.addEventListener("scroll", adjustInputPosition);
     </script>
 </body>
 </html>
