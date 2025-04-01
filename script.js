@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         userInput.value = "";
 
         setTimeout(() => {
-            addMessage("bot", "已收到您的請求，即將根據請求繪製愚人節限定圖片...");
+            addMessage("bot", "已收到您的請求，即將根據請求繪製Chat RC限定圖片...");
             showLoading();
         }, 500);
     });
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
         imageContainer.classList.add("image-container");
 
         let img = document.createElement("img");
-        img.src = "img.jpg";
+        img.src = "IMG_7203.jpeg";
         img.alt = "愚人節圖片";
 
         let mask = document.createElement("div");
